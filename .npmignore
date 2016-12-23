@@ -1,0 +1,8 @@
+*.log
+.DS_Store
+.nyc_output
+coverage
+lib
+node_modules
+test
+*.spec.js

@@ -1,0 +1,45 @@
+{
+  "name": "mandarin",
+  "version": "1.0.0",
+  "description": "A collection of tools for working with asynchronous redux actions",
+  "scripts": {
+    "build": "pkg-build",
+    "prepublish": "pkg-build",
+    "test": "pkg-test",
+    "coverage": "pkg-coverage",
+    "lint": "pkg-lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stayradiated/mandarin.git"
+  },
+  "author": "George Czabania <george@czabania.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "srcPath": "lib",
+  "buildPath": "dist",
+  "testsPath": "test",
+  "bugs": {
+    "url": "https://github.com/stayradiated/mandarin/issues"
+  },
+  "homepage": "https://github.com/stayradiated/mandarin#readme",
+  "dependencies": {
+    "reselect": "2.5.4"
+  },
+  "devDependencies": {
+    "@stayradiated/pkg": "^1.0.1",
+    "sinon": "^1.17.6",
+    "sinon-as-promised": "^4.0.2",
+    "stu": "^0.5.0"
+  },
+  "babel": {
+    "presets": [
+      "stayradiated"
+    ]
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
+  }
+}
