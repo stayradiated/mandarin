@@ -32,10 +32,10 @@ test('should create a new instance', (t) => {
   t.is(typeof reducer.getValue, 'function')
 
   t.deepEqual(reducer.initialState, {
-    errors: {},
-    values: {},
-    promises: {},
-    fetched: {},
+    errors: new Map(),
+    values: new Map(),
+    promises: new Map(),
+    fetched: new Map(),
   })
 })
 
