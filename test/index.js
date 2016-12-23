@@ -12,4 +12,7 @@ test('index exports all submodules', (t) => {
   t.is(typeof index.createValueSelector, 'function')
   t.is(typeof index.createMapSelector, 'function')
   t.is(typeof index.exportValue, 'function')
+  t.is(typeof index.createValueMergeFunction, 'function')
+  t.is(typeof index.createArrayMergeFunction, 'function')
+  t.is(typeof index.shallowMerge, 'function')
 })
