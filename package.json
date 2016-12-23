@@ -15,7 +15,7 @@
   },
   "author": "George Czabania <george@czabania.com>",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/index.js",
   "srcPath": "lib",
   "buildPath": "dist",
   "testsPath": "test",
