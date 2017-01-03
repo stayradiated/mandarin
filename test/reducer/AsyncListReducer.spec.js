@@ -15,12 +15,14 @@ const END = 5
 const RANGE = [START, END]
 const PROMISE = 'PROMISE'
 const ERROR = 'ERROR'
-const VALUE = ['V', 'A', 'L', 'U', 'E']
+const VALUES = ['V', 'A', 'L', 'U', 'E']
+const TOTAL = 5
 const OPTIONS = {
-  values: 'values',
   errors: 'errors',
-  promises: 'promises',
   fetched: 'fetched',
+  promises: 'promises',
+  total: 'total',
+  values: 'values',
 }
 
 test('should create a new instance', (t) => {
@@ -32,13 +34,14 @@ test('should create a new instance', (t) => {
 
   t.is(typeof reducer.getPromise, 'function')
   t.is(typeof reducer.getError, 'function')
-  t.is(typeof reducer.getValue, 'function')
+  t.is(typeof reducer.getValues, 'function')
 
   t.deepEqual(reducer.initialState, {
     errors: new PirateMap(),
     fetched: new PirateMap(),
     promises: new PirateMap(),
-    values: []
+    values: [],
+    total: 0,
   })
 })
 
@@ -79,10 +82,13 @@ test('should get value', (t) => {
 
   reducer.handleSuccess(STATE, {
     payload: {start: START, end: END},
-    value: VALUE,
+    value: {
+      items: VALUES,
+      total: TOTAL,
+    },
   })
 
   t.deepEqual(AsyncList.prototype.handleSuccess.args, [[
-    STATE, RANGE, VALUE,
+    STATE, RANGE, VALUES, TOTAL,
   ]])
 })

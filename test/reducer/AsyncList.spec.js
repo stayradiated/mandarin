@@ -7,7 +7,8 @@ import AsyncList from '../../lib/reducer/AsyncList'
 const RANGE = [0, 5]
 const PROMISE = 'PROMISE'
 const ERROR = 'ERROR'
-const VALUE = ['a', 'b', 'c', 'd', 'e']
+const VALUES = ['a', 'b', 'c', 'd', 'e']
+const TOTAL = 5
 
 test.beforeEach((t) => {
   t.context.resolve = sinon.spy()
@@ -85,7 +86,7 @@ test('SUCCESS - should reset promise', (t) => {
   const {successState} = t.context
 
   const asyncList = new AsyncList()
-  const result = asyncList.handleSuccess(successState, RANGE, VALUE)
+  const result = asyncList.handleSuccess(successState, RANGE, VALUES, TOTAL)
 
   t.is(result.promises.get(RANGE), undefined)
 })
@@ -94,7 +95,7 @@ test('SUCCESS - should reset error', (t) => {
   const {successState} = t.context
 
   const asyncList = new AsyncList()
-  const result = asyncList.handleSuccess(successState, RANGE, VALUE)
+  const result = asyncList.handleSuccess(successState, RANGE, VALUES, TOTAL)
 
   t.is(result.errors.get(RANGE), undefined)
 })
@@ -103,7 +104,7 @@ test('SUCCESS - should set fetched', (t) => {
   const {successState} = t.context
 
   const asyncList = new AsyncList()
-  const result = asyncList.handleSuccess(successState, RANGE, VALUE)
+  const result = asyncList.handleSuccess(successState, RANGE, VALUES, TOTAL)
 
   t.deepEqual(result.fetched.get(RANGE), true)
 })
@@ -112,9 +113,9 @@ test('SUCCESS - should set value', (t) => {
   const {successState} = t.context
 
   const asyncList = new AsyncList()
-  const result = asyncList.handleSuccess(successState, RANGE, VALUE)
+  const result = asyncList.handleSuccess(successState, RANGE, VALUES, TOTAL)
 
-  t.deepEqual(result.values, VALUE)
+  t.deepEqual(result.values, VALUES)
 })
 
 test('SUCCESS - should update value', (t) => {
@@ -124,16 +125,19 @@ test('SUCCESS - should update value', (t) => {
   const asyncList = new AsyncList({
     updateValue: (newValue, oldValue) => newValue + oldValue,
   })
-  const result = asyncList.handleSuccess(successState, [0, 5], [1, 2, 3, 4, 5])
+  const result = asyncList.handleSuccess(successState, [0, 5], [1, 2, 3, 4, 5], 10)
 
-  t.deepEqual(result.values, [0, 0, 0, 0, 0])
+  t.deepEqual(result.values, [
+    0, 0, 0, 0, 0,
+    undefined, undefined, undefined, undefined, undefined,
+  ])
 })
 
 test('SUCCESS - should offset value', (t) => {
   const {successState} = t.context
 
   const asyncList = new AsyncList()
-  const result = asyncList.handleSuccess(successState, [5, 10], [1, 2, 3, 4, 5])
+  const result = asyncList.handleSuccess(successState, [5, 10], [1, 2, 3, 4, 5], 10)
 
   t.deepEqual(result.values, [
     undefined, undefined, undefined, undefined, undefined,
