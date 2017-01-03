@@ -1,6 +1,12 @@
 import test from 'ava'
+import PirateMap from 'piratemap'
 
-import {containsRange, clean, listContainsRange} from '../lib/list'
+import {
+  containsRange,
+  clean,
+  listContainsRange,
+  mapContainsRange,
+} from '../../lib/utils/list'
 
 test('containsRange', (t) => {
   t.true(containsRange([0, 100], [0, 100]))
@@ -63,4 +69,15 @@ test('listContainsRange', (t) => {
   const list = [[0, 10], [20, 30], [10, 20]]
   const testRange = [5, 25]
   t.true(listContainsRange(list, testRange))
+})
+
+test('mapContainsRange', (t) => {
+  const testRange = [5, 25]
+  const map = new PirateMap()
+  map.set([0, 10], 1)
+  t.false(mapContainsRange(map, testRange))
+  map.set([20, 30], 2)
+  t.false(mapContainsRange(map, testRange))
+  map.set([10, 20], 3)
+  t.true(mapContainsRange(map, testRange))
 })
