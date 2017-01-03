@@ -50,7 +50,7 @@ test('should dispatch the action', (t) => {
   })
 })
 
-test('should return a promise if the value is being fetcched', (t) => {
+test('should return a promise if the value is being fetched', (t) => {
   const {dispatch, getState} = t.context
 
   const action = cacheMap(myAction, () => ({

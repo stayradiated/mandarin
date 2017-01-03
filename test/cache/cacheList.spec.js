@@ -51,7 +51,7 @@ test('should dispatch the action', (t) => {
   })
 })
 
-test('should return a promise if the value is being fetcched', (t) => {
+test('should return a promise if the value is being fetched', (t) => {
   const {dispatch, getState} = t.context
 
   const action = cacheList(myAction, () => ({
@@ -79,6 +79,28 @@ test('should return a promise if the value has been fetched', (t) => {
       promises: () => new PirateMap(),
       fetched: () => new PirateMap([[[0, 1], true]]),
       values: () => [VALUE],
+    },
+  }))
+
+  const result = action()(dispatch, getState)
+  return result.then((_getState) => {
+    t.is(_getState, getState)
+    t.false(dispatch.called)
+  })
+})
+
+test('should return a promise if the value is being fetched in parts', (t) => {
+  const {dispatch, getState} = t.context
+
+  const action = cacheList(myAction, () => ({
+    range: [10, 20],
+    selectors: {
+      promises: () => new PirateMap([
+        [[5, 15], PROMISE],
+        [[15, 25], PROMISE],
+      ]),
+      fetched: () => new PirateMap(),
+      values: () => [],
     },
   }))
 
