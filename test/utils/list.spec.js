@@ -9,6 +9,7 @@ import {
   listContainsRange,
   mapContainsRange,
   mapKeysThatIntersectRange,
+  trimRange,
 } from '../../lib/utils/list'
 
 test('containsRange', (t) => {
@@ -141,4 +142,26 @@ test('mapKeysThatIntersectRange', (t) => {
   t.deepEqual(
     mapKeysThatIntersectRange(map, testRange),
     [[5, 12], [10, 15], [15, 20]])
+})
+
+test('trimRange', (t) => {
+  t.deepEqual(
+    trimRange([[0, 10], [90, 100]], [0, 100]),
+    [10, 90])
+
+  t.deepEqual(
+    trimRange([[5, 15], [20, 30]], [10, 25]),
+    [15, 20])
+
+  t.deepEqual(
+    trimRange([[10, 20], [0, 10]], [0, 100]),
+    [20, 100])
+
+  t.deepEqual(
+    trimRange([[90, 100], [80, 90]], [0, 100]),
+    [0, 80])
+
+  t.deepEqual(
+    trimRange([[40, 60]], [0, 100]),
+    [0, 100])
 })
