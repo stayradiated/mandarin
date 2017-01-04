@@ -1,16 +1,24 @@
 import test from 'ava'
-import PirateMap from 'piratemap'
 
 import {
+  rangeSize,
   containsRange,
   rangeContainsPoint,
   rangesIntersect,
+  subtractRange,
   clean,
   listContainsRange,
-  mapContainsRange,
-  mapKeysThatIntersectRange,
+  filterListByRangeIntersect,
   trimRange,
+  subtractListFromRange,
+  subtractRangeList,
 } from '../../lib/utils/list'
+
+test('rangeSize', (t) => {
+  t.is(1, rangeSize([0, 1]))
+  t.is(0, rangeSize([0, 0]))
+  t.is(5, rangeSize([5, 10]))
+})
 
 test('containsRange', (t) => {
   t.true(containsRange([0, 100], [0, 100]))
@@ -49,52 +57,88 @@ test('rangesIntersect', (t) => {
   t.false(rangesIntersect([0, 1], [1, 2]))
 })
 
-test('two overlapping groups', (t) => {
-  const input = [[40, 60], [0, 50], [80, 100], [70, 90]]
-  const expected = [[0, 60], [70, 100]]
+test('subtractRange', (t) => {
+  // b just before a
+  t.deepEqual(
+    subtractRange([10, 20], [5, 10]),
+    [[10, 20]])
 
-  const actual = clean(input)
-  t.deepEqual(actual, expected)
+  // b just overlaps start of a
+  t.deepEqual(
+    subtractRange([10, 20], [5, 11]),
+    [[11, 20]])
+
+  // b start of  a
+  t.deepEqual(
+    subtractRange([10, 20], [10, 15]),
+    [[15, 20]])
+
+  // b overlaps start of a
+  t.deepEqual(
+    subtractRange([10, 20], [9, 15]),
+    [[15, 20]])
+
+  // b just after a
+  t.deepEqual(
+    subtractRange([10, 20], [20, 25]),
+    [[10, 20]])
+
+  // b just overlaps end of a
+  t.deepEqual(
+    subtractRange([10, 20], [19, 25]),
+    [[10, 19]])
+
+  // b end of a
+  t.deepEqual(
+    subtractRange([10, 20], [15, 20]),
+    [[10, 15]])
+
+  // b end of a
+  t.deepEqual(
+    subtractRange([10, 20], [15, 21]),
+    [[10, 15]])
+
+  // same range
+  t.deepEqual(
+    subtractRange([0, 20], [0, 20]),
+    [])
+
+  // a contains b
+  t.deepEqual(
+    subtractRange([0, 20], [5, 15]),
+    [[0, 5], [15, 20]])
 })
 
-test('three seperate groups', (t) => {
-  const input = [[0, 1], [10, 11], [20, 21]]
-  const expected = [[0, 1], [10, 11], [20, 21]]
+test('clean', (t) => {
+  // two seperate groups
+  t.deepEqual(
+    clean([[40, 60], [0, 50], [80, 100], [70, 90]]),
+    [[0, 60], [70, 100]])
 
-  const actual = clean(input)
-  t.deepEqual(actual, expected)
-})
+  // three seperate groups
+  t.deepEqual(
+    clean([[0, 1], [10, 11], [20, 21]]),
+    [[0, 1], [10, 11], [20, 21]])
 
-test('the same group over and over again', (t) => {
-  const input = [[0, 100], [0, 100], [0, 100]]
-  const expected = [[0, 100]]
+  // the same group over and over again
+  t.deepEqual(
+    clean([[0, 100], [0, 100], [0, 100]]),
+    [[0, 100]])
 
-  const actual = clean(input)
-  t.deepEqual(actual, expected)
-})
+  // continous merges
+  t.deepEqual(
+    clean([[0, 100], [100, 200], [200, 300], [300, 400]]),
+    [[0, 400]])
 
-test('continous merges', (t) => {
-  const input = [[0, 100], [100, 200], [200, 300], [300, 400]]
-  const expected = [[0, 400]]
+  // continous miss
+  t.deepEqual(
+    clean([[0, 1], [2, 3], [4, 5]]),
+    [[0, 1], [2, 3], [4, 5]])
 
-  const actual = clean(input)
-  t.deepEqual(actual, expected)
-})
-
-test('continous miss', (t) => {
-  const input = [[0, 1], [2, 3], [4, 5]]
-  const expected = [[0, 1], [2, 3], [4, 5]]
-
-  const actual = clean(input)
-  t.deepEqual(actual, expected)
-})
-
-test('put it all together!', (t) => {
-  const input = [[0, 100], [50, 150], [250, 300], [100, 200], [40, 50]]
-  const expected = [[0, 200], [250, 300]]
-
-  const actual = clean(input)
-  t.deepEqual(actual, expected)
+  // put it all together!
+  t.deepEqual(
+    clean([[0, 100], [50, 150], [250, 300], [100, 200], [40, 50]]),
+    [[0, 200], [250, 300]])
 })
 
 test('listContainsRange', (t) => {
@@ -103,45 +147,28 @@ test('listContainsRange', (t) => {
   t.true(listContainsRange(list, testRange))
 })
 
-test('mapContainsRange', (t) => {
-  const testRange = [5, 25]
-  const map = new PirateMap()
-  map.set([0, 10], 1)
-  t.false(mapContainsRange(map, testRange))
-  map.set([20, 30], 2)
-  t.false(mapContainsRange(map, testRange))
-  map.set([10, 20], 3)
-  t.true(mapContainsRange(map, testRange))
-})
-
-test('mapKeysThatIntersectRange', (t) => {
+test('filterListByRangeIntersect', (t) => {
   const testRange = [10, 20]
-  const map = new PirateMap()
 
-  map.set([0, 10], true)
   t.deepEqual(
-    mapKeysThatIntersectRange(map, testRange),
+    filterListByRangeIntersect([[0, 10]], testRange),
     [])
 
-  map.set([5, 12], true)
   t.deepEqual(
-    mapKeysThatIntersectRange(map, testRange),
+    filterListByRangeIntersect([[0, 10], [5, 12]], testRange),
     [[5, 12]])
 
-  map.set([10, 15], true)
   t.deepEqual(
-    mapKeysThatIntersectRange(map, testRange),
+    filterListByRangeIntersect([[5, 12], [10, 15]], testRange),
     [[5, 12], [10, 15]])
 
-  map.set([15, 20], true)
   t.deepEqual(
-    mapKeysThatIntersectRange(map, testRange),
+    filterListByRangeIntersect([[5, 12], [10, 15], [15, 20]], testRange),
     [[5, 12], [10, 15], [15, 20]])
 
-  map.set([20, 25], true)
   t.deepEqual(
-    mapKeysThatIntersectRange(map, testRange),
-    [[5, 12], [10, 15], [15, 20]])
+    filterListByRangeIntersect([[15, 20], [25, 30]], testRange),
+    [[15, 20]])
 })
 
 test('trimRange', (t) => {
@@ -164,4 +191,42 @@ test('trimRange', (t) => {
   t.deepEqual(
     trimRange([[40, 60]], [0, 100]),
     [0, 100])
+
+  t.deepEqual(
+    trimRange([[0, 90], [80, 200]], [50, 150]),
+    [150, 150])
+})
+
+test('subtractListFromRange', (t) => {
+  t.deepEqual(
+    subtractListFromRange([[5, 15], [15, 25]], [10, 20]),
+    [])
+
+  t.deepEqual(
+    subtractListFromRange([[10, 15], [20, 25], [30, 35]], [5, 40]),
+    [[5, 10], [15, 20], [25, 30], [35, 40]])
+
+  t.deepEqual(
+    subtractListFromRange([[5, 15]], [0, 20]),
+    [[0, 5], [15, 20]])
+
+  t.deepEqual(
+    subtractListFromRange([[0, 20]], [0, 20]),
+    [])
+})
+
+test('subtractRangeList', (t) => {
+  t.deepEqual(
+    subtractRangeList([[0, 50]], [[0, 10], [40, 50], [10, 20]]),
+    [[20, 40]])
+
+  t.deepEqual(
+    subtractRangeList([[20, 40]], [[30, 40], [20, 30]]),
+    [])
+
+  t.deepEqual(
+    subtractRangeList(
+      [[0, 100], [150, 250]],
+      [[40, 50], [80, 160], [200, 240]]),
+    [[0, 40], [50, 80], [160, 200], [240, 250]])
 })

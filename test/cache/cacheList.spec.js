@@ -160,3 +160,30 @@ test('should dispatch the action with a trimmed range', (t) => {
     ])
   })
 })
+
+test('should not dispatch the action when range = promises + fetched', (t) => {
+  const {dispatch, getState} = t.context
+
+  const action = cacheList(() => ({
+    range: [0, 50],
+    dispatch: myAction,
+    selectors: {
+      promises: () => new PirateMap([
+        [[0, 10], PROMISE],
+        [[40, 50], PROMISE],
+        [[10, 20], PROMISE],
+      ]),
+      fetched: () => new PirateMap([
+        [[30, 40], true],
+        [[20, 30], true],
+      ]),
+      values: () => [/* just pretend that there are values here... */],
+    },
+  }))
+
+  const result = action()(dispatch, getState)
+  return result.then((_getState) => {
+    t.is(_getState, getState)
+    t.false(dispatch.called)
+  })
+})
