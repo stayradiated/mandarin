@@ -7,13 +7,15 @@ test('index exports all submodules', (t) => {
 
   t.is(typeof index.cacheList, 'function')
   t.is(typeof index.cacheMap, 'function')
+  t.is(typeof index.cacheMapList, 'function')
   t.is(typeof index.cacheValue, 'function')
 
   t.is(typeof index.c, 'function')
 
-  t.is(typeof index.AsyncValueReducer, 'function')
-  t.is(typeof index.AsyncMapReducer, 'function')
   t.is(typeof index.AsyncListReducer, 'function')
+  t.is(typeof index.AsyncMapListReducer, 'function')
+  t.is(typeof index.AsyncMapReducer, 'function')
+  t.is(typeof index.AsyncValueReducer, 'function')
 
   t.is(typeof index.createListSelector, 'function')
   t.is(typeof index.createMapSelector, 'function')
