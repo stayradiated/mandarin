@@ -22,15 +22,16 @@ test.beforeEach((t) => {
 })
 
 test('should create an action', (t) => {
-  const action = cacheMap(myAction, () => ({id: 1}))
+  const action = cacheMap(() => ({id: 1, dispatch: myAction}))
   t.is(typeof action, 'function')
 })
 
 test('should dispatch the action', (t) => {
   const {dispatch, getState} = t.context
 
-  const action = cacheMap(myAction, () => ({
+  const action = cacheMap(() => ({
     id: 1,
+    dispatch: myAction,
     selectors: {
       promises: () => new Map(),
       fetched: () => new Map(),
@@ -53,8 +54,9 @@ test('should dispatch the action', (t) => {
 test('should return a promise if the value is being fetched', (t) => {
   const {dispatch, getState} = t.context
 
-  const action = cacheMap(myAction, () => ({
+  const action = cacheMap(() => ({
     id: 1,
+    dispatch: myAction,
     selectors: {
       promises: () => new Map([[1, PROMISE]]),
       fetched: () => new Map([[1, true]]),
@@ -72,8 +74,9 @@ test('should return a promise if the value is being fetched', (t) => {
 test('should return a promise if the value has been fetched', (t) => {
   const {dispatch, getState} = t.context
 
-  const action = cacheMap(myAction, () => ({
+  const action = cacheMap(() => ({
     id: 1,
+    dispatch: myAction,
     selectors: {
       promises: () => new Map(),
       fetched: () => new Map([[1, true]]),
