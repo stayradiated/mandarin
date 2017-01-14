@@ -1,6 +1,6 @@
 {
   "name": "@stayradiated/mandarin",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "description": "A collection of tools for working with asynchronous redux actions",
   "scripts": {
     "build": "pkg-build",
@@ -35,9 +35,12 @@
   },
   "babel": {
     "presets": [
-      ["stayradiated", {
-        "runtime": false
-      }]
+      [
+        "stayradiated",
+        {
+          "runtime": false
+        }
+      ]
     ]
   },
   "ava": {
