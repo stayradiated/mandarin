@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/stayradiated/mandarin#readme",
   "dependencies": {
-    "piratemap": "^1.0.2",
+    "piratemap": "^1.0.3",
     "reselect": "2.5.4"
   },
   "devDependencies": {

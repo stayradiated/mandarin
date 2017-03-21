@@ -14,7 +14,6 @@ const ID = 123
 const START = 0
 const END = 5
 const RANGE = [START, END]
-const KEY = [ID, START, END]
 const PROMISE = 'PROMISE'
 const ERROR = 'ERROR'
 const VALUES = ['V', 'A', 'L', 'U', 'E']
@@ -23,7 +22,6 @@ const OPTIONS = {
   errors: 'errors',
   fetched: 'fetched',
   promises: 'promises',
-  total: 'total',
   values: 'values',
 }
 
@@ -43,7 +41,6 @@ test('should create a new instance', (t) => {
     fetched: new PirateMap(),
     promises: new PirateMap(),
     values: new Map(),
-    total: 0,
   })
 })
 
