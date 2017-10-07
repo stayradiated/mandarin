@@ -1,6 +1,5 @@
 import test from 'ava'
 import sinon from 'sinon'
-import 'sinon-as-promised'
 
 import cacheMap from '../../lib/cache/cacheMap'
 

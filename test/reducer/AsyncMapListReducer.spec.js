@@ -91,3 +91,17 @@ test('should get value', (t) => {
     STATE, ID, RANGE, VALUES, TOTAL,
   ]])
 })
+
+test('should reset state', (t) => {
+  const {AsyncMapList, AsyncMapListReducer} = t.context
+
+  const reducer = new AsyncMapListReducer(OPTIONS)
+
+  reducer.handleReset(STATE, {
+    payload: {id: ID},
+  })
+
+  t.deepEqual(AsyncMapList.prototype.handleReset.args, [[
+    STATE, ID,
+  ]])
+})

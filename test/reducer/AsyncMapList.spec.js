@@ -29,6 +29,11 @@ test.beforeEach((t) => {
     error: new PirateMap([[KEY, ERROR]]),
     values: new Map(),
   }
+
+  t.context.resetState = {
+    fetched: new PirateMap([[KEY, true]]),
+    values: new Map([[ID, VALUES]]),
+  }
 })
 
 test('should set default options', (t) => {
@@ -151,4 +156,14 @@ test('SUCCESS - should offset value', (t) => {
       1, 2, 3, 4, 5,
     ]],
   ]))
+})
+
+test('RESET - should reset value', (t) => {
+  const {resetState} = t.context
+
+  const asyncList = new AsyncMapList()
+  const result = asyncList.handleReset(resetState, ID)
+
+  t.deepEqual(result.values, new Map([]))
+  t.deepEqual(result.fetched, new PirateMap([]))
 })
