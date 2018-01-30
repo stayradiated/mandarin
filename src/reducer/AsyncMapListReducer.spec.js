@@ -106,14 +106,14 @@ test('should reset state', (t) => {
   ]])
 })
 
-test('should modifyItemValues', (t) => {
+test('should modifyItemValuesForAction', (t) => {
   const { AsyncMapList, AsyncMapListReducer } = t.context
 
   const reducer = new AsyncMapListReducer(OPTIONS)
 
   const UPDATE_FN = 'UPDATE_FN'
 
-  reducer.modifyItemValues(STATE, { payload: { id: ID } }, UPDATE_FN)
+  reducer.modifyItemValuesForAction(STATE, { payload: { id: ID } }, UPDATE_FN)
 
   t.deepEqual(AsyncMapList.prototype.modifyItemValues.args, [[
     STATE, ID, UPDATE_FN

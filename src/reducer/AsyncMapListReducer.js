@@ -58,8 +58,8 @@ export default class AsyncMapListReducer extends AsyncMapList {
     return super.handleReset(state, id)
   }
 
-  modifyItemValues (state, action, updateFn) {
-    const id = getId(action)
+  modifyItemValuesForAction (state, action, updateFn) {
+    const id = this.getId(action)
     return super.modifyItemValues(state, id, updateFn)
   }
 }
