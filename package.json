@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "A collection of tools for working with asynchronous redux actions",
   "scripts": {
-    "build": "pkg-build",
+    "build": "rollup -c",
     "prepublish": "pkg-build",
     "test": "pkg-test",
     "coverage": "pkg-coverage",
@@ -26,8 +26,13 @@
   },
   "devDependencies": {
     "@mishguru/package": "^1.15.4",
-    "sinon": "^4.2.1",
-    "stu": "^1.3.0"
+    "sinon": "^4.2.2",
+    "stu": "^1.3.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup": "^0.55.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-local-resolve": "^1.0.7"
   },
   "babel": {
     "presets": [
