@@ -4,7 +4,7 @@
   "description": "A collection of tools for working with asynchronous redux actions",
   "scripts": {
     "build": "rollup -c",
-    "prepublish": "pkg-build",
+    "prepublish": "npm run build",
     "test": "pkg-test",
     "coverage": "pkg-coverage",
     "lint": "pkg-lint"
