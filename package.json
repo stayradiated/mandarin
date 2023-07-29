@@ -1,19 +1,20 @@
 {
   "name": "@stayradiated/mandarin",
-  "version": "3.1.3",
+  "version": "4.0.0",
   "description": "A collection of tools for working with asynchronous redux actions",
   "scripts": {
-    "build": "pkg-clean && rollup -c",
-    "prepublish": "npm run build",
-    "test": "pkg-test",
-    "coverage": "pkg-coverage",
-    "lint": "pkg-lint"
+    "tidy": "xo --fix ./src",
+    "test": "vitest --watch=false ./src",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stayradiated/mandarin.git"
   },
-  "author": "George Czabania <george@czabania.com>",
+  "author": {
+    "name": "George Czabania",
+    "email": "george@czabania.com"
+  },
   "license": "MIT",
   "main": "dist/index.js",
   "bugs": {
@@ -21,44 +22,33 @@
   },
   "homepage": "https://github.com/stayradiated/mandarin#readme",
   "dependencies": {
-    "piratemap": "^1.0.3",
-    "reselect": "^3.0.1"
+    "immer": "10.0.2",
+    "piratemap": "4.3.0"
   },
   "devDependencies": {
-    "@mishguru/package": "^1.15.4",
-    "sinon": "^4.2.2",
-    "stu": "^1.3.0",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "rollup-plugin-json": "^2.3.0",
-    "rollup": "^0.55.1",
-    "rollup-plugin-babel": "^3.0.3",
-    "rollup-plugin-local-resolve": "^1.0.7"
+    "typescript": "5.1.6",
+    "vitest": "0.33.0",
+    "xo": "0.55.0"
   },
-  "babel": {
-    "presets": [
-      "flow",
-      [
-        "env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ]
-    ],
-    "plugins": [
-      [
-        "transform-object-rest-spread",
-        {
-          "useBuiltIns": true
-        }
-      ]
-    ]
+  "type": "module",
+  "__comment": "The following configs are managed by `@stayradiated/jsconfig`",
+  "xo": {
+    "space": true,
+    "semicolon": false,
+    "prettier": true
   },
-  "ava": {
-    "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "imports": {
+    "#src/*": {
+      "node": "./dist/*"
+    }
   }
 }

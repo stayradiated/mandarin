@@ -6,28 +6,28 @@ export default {
   input: 'src/index.js',
   output: {
     file: 'dist/index.js',
-    format: 'cjs'
+    format: 'cjs',
   },
   plugins: [
     resolve(),
     json({
-      exclude: 'node_modules/**'
+      exclude: 'node_modules/**',
     }),
     babel({
       babelrc: false,
       exclude: 'node_modules/**',
       presets: [
         'flow',
-        [ 'env', {
-          forceAllTransforms: true,
-          'modules': false,
-          'useBuiltIns': 'entry'
-        } ]
+        [
+          'env',
+          {
+            forceAllTransforms: true,
+            modules: false,
+            useBuiltIns: 'entry',
+          },
+        ],
       ],
-      plugins: [
-        'external-helpers',
-        'transform-object-rest-spread'
-      ]
-    })
-  ]
+      plugins: ['external-helpers', 'transform-object-rest-spread'],
+    }),
+  ],
 }
