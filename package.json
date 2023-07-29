@@ -1,6 +1,6 @@
 {
   "name": "@stayradiated/mandarin",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "A collection of tools for working with asynchronous redux actions",
   "scripts": {
     "tidy": "xo --fix ./src",
