@@ -5,7 +5,8 @@
   "scripts": {
     "tidy": "xo --fix ./src",
     "test": "vitest --watch=false ./src",
-    "build": "tsc"
+    "build": "tsc",
+    "prepublish": "$npm_execpath run build"
   },
   "repository": {
     "type": "git",
