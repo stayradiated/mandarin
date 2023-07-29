@@ -1,3 +1,5 @@
 # mandarin
 
-A collection of tools for working with asynchronous redux actions
+A small library for incremental fetching of list items.
+
+Pairs well with `zustand` and `react-window-infinite-loader`.

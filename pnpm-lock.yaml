@@ -9,8 +9,8 @@ dependencies:
     specifier: 10.0.2
     version: 10.0.2
   piratemap:
-    specifier: 4.3.0
-    version: 4.3.0
+    specifier: 5.0.0
+    version: 5.0.0
 
 devDependencies:
   typescript:
@@ -3015,10 +3015,8 @@ packages:
     engines: {node: '>=8.6'}
     dev: true
 
-  /piratemap@4.3.0:
-    resolution: {integrity: sha512-dryg6XPxzTLxpkbBetwq9iplzli/ItzWCDMz9HjhPVngU1232PBObE0pdl7MEuofgih7ZlAqIML1xaG/AmHJdg==}
-    dependencies:
-      shallow-equal: 3.1.0
+  /piratemap@5.0.0:
+    resolution: {integrity: sha512-OZ1DsAULfUqy0bbieYtI1oDqXkWWXHUJ2/gSdwklaMcSDynmTmJD/Fs8Fh8qtI+EwOM6Idyr8ZzVhA0ATTvpkw==}
     dev: false
 
   /pkg-dir@5.0.0:
@@ -3306,10 +3304,6 @@ packages:
     dependencies:
       randombytes: 2.1.0
     dev: true
-
-  /shallow-equal@3.1.0:
-    resolution: {integrity: sha512-pfVOw8QZIXpMbhBWvzBISicvToTiM5WBF1EeAUZDDSb5Dt29yl4AYbyywbJFSEsRUMr7gJaxqCdr4L3tQf9wVg==}
-    dev: false
 
   /shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}

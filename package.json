@@ -24,7 +24,7 @@
   "homepage": "https://github.com/stayradiated/mandarin#readme",
   "dependencies": {
     "immer": "10.0.2",
-    "piratemap": "4.3.0"
+    "piratemap": "5.0.0"
   },
   "devDependencies": {
     "typescript": "5.1.6",
