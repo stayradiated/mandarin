@@ -1,7 +1,6 @@
 import { produce, enableMapSet as immerEnableMapSet, castDraft } from 'immer'
 import { createPirateMap } from 'piratemap'
 import {
-  filterListByRangeIntersect,
   subtractListFromRange,
   subtractRangeList,
   clean,
@@ -18,7 +17,7 @@ const pRangeMap = createPirateMap<Range>(isRangeEqual)
 
 type State<Value> = {
   readonly valueList: Array<Value | undefined>
-  readonly promiseMap: Map<Range, Promise<State<Value>>>
+  readonly promiseMap: Map<Range, Promise<void>>
   readonly errorMap: Map<Range, Error>
   readonly fetchedSet: Set<Range>
   readonly total: number
@@ -27,7 +26,7 @@ type State<Value> = {
 type HandleRequestOptions<Value> = {
   state: State<Value>
   range: Range
-  promise: Promise<State<Value>>
+  promise: Promise<void>
 }
 
 const handleRequest = <Value>(
@@ -106,23 +105,15 @@ type FetchListOptions<Value> = {
 
 const fetchList = async <Value>(
   options: FetchListOptions<Value>,
-): Promise<State<Value>> => {
+): Promise<void> => {
   const { range, fetch, getState, setState } = options
 
   const initialState = getState()
 
-  // Find all they promises that make up this range and wait for them
-  const promisedRangeList = filterListByRangeIntersect(
-    [...initialState.promiseMap.keys()],
-    range,
-  )
-  const promisedValueList = promisedRangeList.map(async (key) =>
-    initialState.promiseMap.get(key),
-  )
-
+  const promisedRangeList = [...initialState.promiseMap.keys()]
   const unpromisedRangeList = subtractListFromRange(promisedRangeList, range)
   if (unpromisedRangeList.length === 0) {
-    return Promise.all(promisedValueList).then(() => getState())
+    return undefined
   }
 
   const fetchedRangeList = [...initialState.fetchedSet.keys()]
@@ -131,10 +122,10 @@ const fetchList = async <Value>(
     fetchedRangeList,
   )
   if (unfetchedRangeList.length === 0) {
-    return initialState
+    return undefined
   }
 
-  const requestPromiseList: Array<Promise<State<Value>>> = []
+  const requestPromiseList: Array<Promise<void>> = []
 
   for (const trimmedRange of unfetchedRangeList) {
     const promise = fetch(trimmedRange).then(
@@ -147,7 +138,7 @@ const fetchList = async <Value>(
             total,
           }),
         )
-        return getState()
+        return undefined
       },
       (error: Error) => {
         setState(
@@ -157,7 +148,7 @@ const fetchList = async <Value>(
             error,
           }),
         )
-        return getState()
+        return undefined
       },
     )
 
@@ -166,9 +157,7 @@ const fetchList = async <Value>(
   }
 
   // Else dispatch the action
-  return Promise.all([...promisedValueList, ...requestPromiseList]).then(() =>
-    getState(),
-  )
+  return Promise.all(requestPromiseList).then(() => undefined)
 }
 
 export { fetchList, getInitialState }
